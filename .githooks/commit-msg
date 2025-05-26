@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Obtener el mensaje del commit
+commit_msg=$(cat "$1")
+
+# Validar el formato
+if ! echo "$commit_msg" | grep -qE "^(feat|fix|chore): .+$"; then
+    echo "ERROR: El mensaje del commit no sigue el formato correcto."
+    echo "Formato requerido: {feat|fix|chore}: descripción"
+    echo "Ejemplo: feat: agregar funcionalidad de colocar minas"
+    exit 1
+fi
+
+exit 0 
