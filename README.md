@@ -14,9 +14,9 @@ Aprender las bases de la programación imperativa.
 
 - Axel Alem
 - Lucas Della Sala
-- Marco García
+- Marco Aukin Ko Ñancucheo García
 
-> [!NOTE]  
+> [!NOTE]
 > Al ser una actividad académica no está permitido la contribución de terceros.
 
 ## Metodología de contribución
