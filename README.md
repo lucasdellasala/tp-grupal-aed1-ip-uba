@@ -13,7 +13,7 @@ Aprender las bases de la programación imperativa.
 ## Contribuidores
 
 - Axel Alem
-- Lucas Della Sala
+- Lucas Esteban Della Sala
 - Marco Aukin Ko Ñancucheo García
 
 > [!NOTE]
