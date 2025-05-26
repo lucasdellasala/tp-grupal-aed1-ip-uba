@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Obtener el nombre de la rama actual
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+# Validar el formato
+if ! echo "$branch_name" | grep -qE "^(feat|fix|chore)/[a-z0-9_]+$"; then
+    echo "ERROR: El nombre de la rama no sigue el formato correcto."
+    echo "Formato requerido: {feat|fix|chore}/{nombre_funcionalidad}"
+    echo "Ejemplo: feat/colocar_minas"
+    exit 1
+fi
+
+exit 0 

@@ -1,0 +1,35 @@
+name: PR Title Checker
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const pattern = /^(feat|fix|chore): .+$/;
+            
+            if (!pattern.test(title)) {
+              core.setFailed(`El título del PR debe seguir el formato: {feat|fix|chore}: descripción
+              Ejemplos válidos:
+              - feat: agregar funcionalidad de colocar minas
+              - fix: corregir validación de tablero
+              - chore: refactorizar código`);
+            }
+
+            const branch = context.payload.pull_request.head.ref;
+            const branchPattern = /^(feat|fix|chore)\/[a-z0-9_]+$/;
+            
+            if (!branchPattern.test(branch)) {
+              core.setFailed(`El nombre de la rama debe seguir el formato: {feat|fix|chore}/{nombre_funcionalidad}
+              Ejemplos válidos:
+              - feat/colocar_minas
+              - fix/validacion_tablero
+              - chore/refactor_codigo`);
+            } 
