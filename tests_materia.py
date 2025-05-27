@@ -36,7 +36,10 @@ def dimension_correcta(tablero: list[list[int]], filas: int, columnas: int) -> b
             return False
     return True
 
-
+# Este test es para hacer el setup inicial del CI
+class setup_test(unittest.TestCase):
+    def test_ejemplo(self):
+        self.assertTrue(True)
 
 """ class colocar_minasTest(unittest.TestCase):
     def test_ejemplo(self):
