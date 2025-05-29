@@ -41,7 +41,7 @@ class setup_test(unittest.TestCase):
     def test_ejemplo(self):
         self.assertTrue(True)
 
-""" class colocar_minasTest(unittest.TestCase):
+class colocar_minasTest(unittest.TestCase):
     def test_ejemplo(self):
         filas = 2
         columnas = 2
@@ -52,9 +52,14 @@ class setup_test(unittest.TestCase):
         self.assertTrue(son_solo_ceros_y_bombas(tablero))
         # Testeamos que haya una mina en el tablero
         self.assertEqual(cant_minas_en_tablero(tablero), minas)
-  """       
-
-
+    def test_dimension_correcta(self):
+        filas = 2
+        columnas = 2
+        minas = 1
+        tablero: list[list[int]] = colocar_minas(filas, columnas, minas)
+        self.assertTrue(dimension_correcta(tablero, filas, columnas))
+        
+ 
 
 """ class calcular_numerosTest(unittest.TestCase):
     def test_ejemplo(self):
@@ -66,6 +71,7 @@ class setup_test(unittest.TestCase):
         self.assertEqual(tablero, [[1,-1],
                                    [1, 1]])
  """
+
 """ class crear_juegoTest(unittest.TestCase):
     def test_ejemplo(self):
         filas = 2
@@ -123,7 +129,6 @@ class setup_test(unittest.TestCase):
         # Testeamos que haya una mina en el tablero
         self.assertEqual(cant_minas_en_tablero(estado['tablero']), 1)
  """
-
 
 """ class descubrir_celdaTest(unittest.TestCase):
     def test_ejemplo(self):
@@ -196,7 +201,6 @@ class setup_test(unittest.TestCase):
         ])
         self.assertFalse(estado['juego_terminado'])
     """     
-
 
 """ class obtener_estado_tableroTest(unittest.TestCase):
     def test_ejemplo(self):
@@ -275,12 +279,13 @@ class setup_test(unittest.TestCase):
 """ class guardar_estadoTest(unittest.TestCase):
     def test_ejemplo (self):
         return
- """
+"""
+
 """ class cargar_estadoTest(unittest.TestCase):
     def test_ejemplo (self):
         return
+"""
 
- """
 """
 - Agregar varios casos de prueba para cada función.
 - Se debe cubrir al menos el 95% de las líneas de cada función.

@@ -7,6 +7,10 @@ BOMBA = chr(128163)  # simbolo de una mina
 BANDERA = chr(127987)  # simbolo de bandera blanca
 VACIO = " "  # simbolo vacio inicial
 
+BOMBA_CODIGO = -1
+BANDERA_CODIGO = -2
+VACIO_CODIGO = 0
+
 # Tipo de alias para el estado del juego
 EstadoJuego = dict[str, Any]
 
@@ -15,8 +19,23 @@ def existe_archivo(ruta_directorio: str, nombre_archivo:str) -> bool:
     return os.path.exists(os.path.join(ruta_directorio, nombre_archivo))
 
 def colocar_minas(filas:int, columnas: int, minas:int) -> list[list[int]]:
-    return [[]]
+    contador_minas: int = 0
+    posiciones_minas: list[int] = random.sample(range(1, filas * columnas), minas)
+    tablero: list[list[int]] = []
 
+    for fila in range(filas):
+        tablero.append([])
+        for columna in range(columnas):
+            tablero[fila].append(VACIO_CODIGO)
+
+    while contador_minas < minas:
+        indice_mina = posiciones_minas[contador_minas]
+        fila = indice_mina // columnas
+        columna = indice_mina % columnas
+        tablero[fila][columna] = BOMBA_CODIGO
+        contador_minas += 1
+
+    return tablero
 
 def calcular_numeros(tablero: list[list[int]]) -> None:
     return
