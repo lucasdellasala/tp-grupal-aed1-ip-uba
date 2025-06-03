@@ -43,11 +43,15 @@ def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
 
 def es_bomba(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> bool:
     fila_dentro_de_limites: bool = 0 <= indice_fila < len(tablero)
+    if not fila_dentro_de_limites:
+        return False
+
     columna_dentro_de_limites: bool = 0 <= indice_celda < len(
         tablero[indice_fila])
-    celda_es_bomba: bool = tablero[indice_fila][indice_celda] == BOMBA_CODIGO
+    if not columna_dentro_de_limites:
+        return False
 
-    return fila_dentro_de_limites and columna_dentro_de_limites and celda_es_bomba
+    return tablero[indice_fila][indice_celda] == BOMBA_CODIGO
 
 
 def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> int:
