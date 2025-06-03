@@ -41,15 +41,27 @@ def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
     return tablero
 
 
-def actualizar_contador(contador: int, indice_celda: int, fila: list[int], es_fila_actual: bool) -> int:
-    contador_actualizado: int = contador
+def es_bomba(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> bool:
+    fila_dentro_de_limites: bool = 0 <= indice_fila < len(tablero)
+    columna_dentro_de_limites: bool = 0 <= indice_celda < len(
+        tablero[indice_fila])
+    celda_es_bomba: bool = tablero[indice_fila][indice_celda] == BOMBA_CODIGO
 
-    if indice_celda-1 >= 0 and fila[indice_celda-1] == BOMBA_CODIGO:
-        contador_actualizado += 1
-    if fila[indice_celda] == BOMBA_CODIGO and not es_fila_actual:
-        contador_actualizado += 1
-    if indice_celda+1 < len(fila) and fila[indice_celda+1] == BOMBA_CODIGO:
-        contador_actualizado += 1
+    return fila_dentro_de_limites and columna_dentro_de_limites and celda_es_bomba
+
+
+def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> int:
+    contador_actualizado: int = 0
+    desplazamientos_fila = [-1, 0, 1]
+    desplazamientos_columna = [-1, 0, 1]
+
+    for df in desplazamientos_fila:
+        for dc in desplazamientos_columna:
+            if df == 0 and dc == 0:
+                # celda actual
+                continue
+            if es_bomba(tablero, indice_fila + df, indice_celda + dc):
+                contador_actualizado += 1
 
     return contador_actualizado
 
@@ -60,25 +72,8 @@ def calcular_numeros(tablero: list[list[int]]) -> None:
             if tablero[indice_fila][indice_celda] == BOMBA_CODIGO:
                 continue
 
-            contador_minas_limitrofes: int = 0
-            fila_superior: list[int] = []
-            if indice_fila-1 >= 0:
-                fila_superior = tablero[indice_fila-1]
-            fila_actual: list[int] = tablero[indice_fila]
-            fila_inferior: list[int] = []
-            if indice_fila+1 < len(tablero):
-                fila_inferior = tablero[indice_fila+1]
-
-            if len(fila_superior) > 0:
-                contador_minas_limitrofes = actualizar_contador(
-                    contador_minas_limitrofes, indice_celda, fila_superior, False)
-            if len(fila_actual) > 0:
-                contador_minas_limitrofes = actualizar_contador(
-                    contador_minas_limitrofes, indice_celda, fila_actual, True)
-            if len(fila_inferior) > 0:
-                contador_minas_limitrofes = actualizar_contador(
-                    contador_minas_limitrofes, indice_celda, fila_inferior, False)
-
+            contador_minas_limitrofes = actualizar_contador(
+                tablero, indice_fila, indice_celda)
             tablero[indice_fila][indice_celda] = contador_minas_limitrofes
 
 
