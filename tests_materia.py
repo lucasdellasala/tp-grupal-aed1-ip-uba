@@ -90,7 +90,7 @@ class calcular_numerosTest(unittest.TestCase):
                                    [-1, 2, 1]])
 
 
-""" class crear_juegoTest(unittest.TestCase):
+class crear_juegoTest(unittest.TestCase):
     def test_ejemplo(self):
         filas = 2
         columnas = 2
@@ -111,7 +111,7 @@ class calcular_numerosTest(unittest.TestCase):
         self.assertFalse(estado['juego_terminado'])
         # Testeamos que haya una mina en el tablero
         self.assertEqual(cant_minas_en_tablero(estado['tablero']), minas)
-    """
+
 
 """ class marcar_celdaTest(unittest.TestCase):
     def test_ejemplo(self):
