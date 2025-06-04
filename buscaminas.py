@@ -14,13 +14,16 @@ VACIO_CODIGO = 0
 # Tipo de alias para el estado del juego
 EstadoJuego = dict[str, Any]
 
-def existe_archivo(ruta_directorio: str, nombre_archivo:str) -> bool:
+
+def existe_archivo(ruta_directorio: str, nombre_archivo: str) -> bool:
     """Chequea si existe el archivo en la ruta dada"""
     return os.path.exists(os.path.join(ruta_directorio, nombre_archivo))
 
-def colocar_minas(filas:int, columnas: int, minas:int) -> list[list[int]]:
+
+def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
     contador_minas: int = 0
-    posiciones_minas: list[int] = random.sample(range(1, filas * columnas), minas)
+    posiciones_minas: list[int] = random.sample(
+        range(1, filas * columnas), minas)
     tablero: list[list[int]] = []
 
     for fila in range(filas):
@@ -37,11 +40,48 @@ def colocar_minas(filas:int, columnas: int, minas:int) -> list[list[int]]:
 
     return tablero
 
+
+def es_bomba(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> bool:
+    fila_dentro_de_limites: bool = 0 <= indice_fila < len(tablero)
+    if not fila_dentro_de_limites:
+        return False
+
+    columna_dentro_de_limites: bool = 0 <= indice_celda < len(
+        tablero[indice_fila])
+    if not columna_dentro_de_limites:
+        return False
+
+    return tablero[indice_fila][indice_celda] == BOMBA_CODIGO
+
+
+def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> int:
+    contador_actualizado: int = 0
+    desplazamientos_fila = [-1, 0, 1]
+    desplazamientos_columna = [-1, 0, 1]
+
+    for df in desplazamientos_fila:
+        for dc in desplazamientos_columna:
+            if df == 0 and dc == 0:
+                # celda actual
+                continue
+            if es_bomba(tablero, indice_fila + df, indice_celda + dc):
+                contador_actualizado += 1
+
+    return contador_actualizado
+
+
 def calcular_numeros(tablero: list[list[int]]) -> None:
-    return
+    for indice_fila in range(len(tablero)):
+        for indice_celda in range(len(tablero[indice_fila])):
+            if tablero[indice_fila][indice_celda] == BOMBA_CODIGO:
+                continue
+
+            contador_minas_limitrofes = actualizar_contador(
+                tablero, indice_fila, indice_celda)
+            tablero[indice_fila][indice_celda] = contador_minas_limitrofes
 
 
-def crear_juego(filas:int, columnas:int, minas:int) -> EstadoJuego:
+def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
     return {}
 
 

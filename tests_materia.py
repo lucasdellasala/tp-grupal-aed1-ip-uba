@@ -1,6 +1,6 @@
 import unittest
 from buscaminas import (crear_juego, descubrir_celda, marcar_celda, obtener_estado_tablero_visible,
-                               reiniciar_juego, colocar_minas, calcular_numeros, verificar_victoria, guardar_estado, cargar_estado, BOMBA, BANDERA, VACIO, EstadoJuego)
+                        reiniciar_juego, colocar_minas, calcular_numeros, verificar_victoria, guardar_estado, cargar_estado, BOMBA, BANDERA, VACIO, EstadoJuego)
 
 
 '''
@@ -11,21 +11,25 @@ Ayudamemoria: entre los métodos para testear están los siguientes:
     self.assertFalse(x)    -> testea que x sea False
     self.assertIn(a, b)    -> testea que a esté en b (siendo b una lista o tupla)
 '''
+
+
 def cant_minas_en_tablero(tablero: list[list[int]]) -> int:
     """Chequea que el número de minas en el tablero sea igual al número de minas esperado"""
-    contador_minas:int = 0
+    contador_minas: int = 0
     for fila in tablero:
         for celda in fila:
             if celda == -1:
                 contador_minas += 1
     return contador_minas
 
-def son_solo_ceros_y_bombas (tablero: list[list[int]]) -> bool:
+
+def son_solo_ceros_y_bombas(tablero: list[list[int]]) -> bool:
     for fila in tablero:
         for celda in fila:
             if celda not in [0, -1]:
                 return False
     return True
+
 
 def dimension_correcta(tablero: list[list[int]], filas: int, columnas: int) -> bool:
     """Chequea que el tablero tenga las dimensiones correctas"""
@@ -37,40 +41,54 @@ def dimension_correcta(tablero: list[list[int]], filas: int, columnas: int) -> b
     return True
 
 # Este test es para hacer el setup inicial del CI
+
+
 class setup_test(unittest.TestCase):
     def test_ejemplo(self):
         self.assertTrue(True)
+
 
 class colocar_minasTest(unittest.TestCase):
     def test_ejemplo(self):
         filas = 2
         columnas = 2
         minas = 1
-        
+
         tablero: list[list[int]] = colocar_minas(filas, columnas, minas)
         # Testeamos que el tablero tenga solo bombas o ceros
         self.assertTrue(son_solo_ceros_y_bombas(tablero))
         # Testeamos que haya una mina en el tablero
         self.assertEqual(cant_minas_en_tablero(tablero), minas)
+
     def test_dimension_correcta(self):
         filas = 2
         columnas = 2
         minas = 1
         tablero: list[list[int]] = colocar_minas(filas, columnas, minas)
         self.assertTrue(dimension_correcta(tablero, filas, columnas))
-        
- 
 
-""" class calcular_numerosTest(unittest.TestCase):
+
+class calcular_numerosTest(unittest.TestCase):
     def test_ejemplo(self):
-        tablero = [[0,-1],
+        tablero = [[0, -1],
                    [0, 0]]
 
         calcular_numeros(tablero)
         # Testeamos que el tablero tenga los números correctos
-        self.assertEqual(tablero, [[1,-1],
+        self.assertEqual(tablero, [[1, -1],
                                    [1, 1]])
- """
+
+    def test_matriz_grande(self):
+        tablero = [[0, 0, 0],
+                   [0, -1, 0],
+                   [-1, 0, 0]]
+
+        calcular_numeros(tablero)
+        # Testeamos que el tablero tenga los números correctos
+        self.assertEqual(tablero, [[1, 1, 1],
+                                   [2, -1, 1],
+                                   [-1, 2, 1]])
+
 
 """ class crear_juegoTest(unittest.TestCase):
     def test_ejemplo(self):
@@ -93,7 +111,7 @@ class colocar_minasTest(unittest.TestCase):
         self.assertFalse(estado['juego_terminado'])
         # Testeamos que haya una mina en el tablero
         self.assertEqual(cant_minas_en_tablero(estado['tablero']), minas)
-    """ 
+    """
 
 """ class marcar_celdaTest(unittest.TestCase):
     def test_ejemplo(self):
@@ -200,7 +218,7 @@ class colocar_minasTest(unittest.TestCase):
             ["1", "1"]
         ])
         self.assertFalse(estado['juego_terminado'])
-    """     
+    """
 
 """ class obtener_estado_tableroTest(unittest.TestCase):
     def test_ejemplo(self):
