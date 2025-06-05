@@ -100,3 +100,5 @@ Se agrega la funcionalidad de colocar minas en el tablero.
 ### Aprobación de código
 
 Los Pull Requests deben ser aprobados por los dos integrantes del grupo que no son autores de la funcionalidad.
+
+🧑‍💻
