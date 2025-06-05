@@ -100,8 +100,14 @@ def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
     return res
 
 
+def copiar_matriz(tablero: list[list[str]]) -> list[list[str]]:
+    copia_del_tablero: list[list[str]] = []
+    for filas in tablero:
+        copia_del_tablero.append(filas.copy())
+    return copia_del_tablero
+
 def obtener_estado_tablero_visible(estado: EstadoJuego) -> list[list[str]]:
-    return [[]]
+    return copiar_matriz(estado["tablero_visible"])
 
 
 def marcar_celda(estado: EstadoJuego, fila: int, columna: int) -> None:
