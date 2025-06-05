@@ -111,7 +111,15 @@ def obtener_estado_tablero_visible(estado: EstadoJuego) -> list[list[str]]:
 
 
 def marcar_celda(estado: EstadoJuego, fila: int, columna: int) -> None:
-    return
+    if not estado['juego_terminado']: 
+        tablero_visible:list[list[str]] = estado['tablero_visible']
+
+        tipo = tablero_visible[fila][columna]
+
+        if tipo == BANDERA:
+            tablero_visible[fila][columna] = VACIO
+        else:
+            tablero_visible[fila][columna] = BANDERA
 
 
 def descubrir_celda(estado: EstadoJuego, fila: int, columna: int) -> None:
