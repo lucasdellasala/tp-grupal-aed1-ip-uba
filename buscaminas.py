@@ -19,17 +19,20 @@ def existe_archivo(ruta_directorio: str, nombre_archivo: str) -> bool:
     """Chequea si existe el archivo en la ruta dada"""
     return os.path.exists(os.path.join(ruta_directorio, nombre_archivo))
 
+def crear_tablero_visible(filas: int, columnas: int, codigo: int | str) -> list[list[int]]:
+    tablero: list[list[int]] = []
+    for fila in range(filas):
+        tablero.append([])
+        for columna in range(columnas):
+            tablero[fila].append(codigo)
+    
+    return tablero
 
 def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
     contador_minas: int = 0
     posiciones_minas: list[int] = random.sample(
         range(1, filas * columnas), minas)
-    tablero: list[list[int]] = []
-
-    for fila in range(filas):
-        tablero.append([])
-        for columna in range(columnas):
-            tablero[fila].append(VACIO_CODIGO)
+    tablero: list[list[int]] = crear_tablero_visible(filas, columnas, VACIO_CODIGO)
 
     while contador_minas < minas:
         indice_mina = posiciones_minas[contador_minas]
@@ -82,7 +85,19 @@ def calcular_numeros(tablero: list[list[int]]) -> None:
 
 
 def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
-    return {}
+    tablero = colocar_minas(filas, columnas, minas)
+    calcular_numeros(tablero)
+    
+    res: EstadoJuego = {
+        "filas": filas,
+        "columnas": columnas,
+        "minas": minas,
+        "tablero_visible": crear_tablero_visible(filas, columnas, VACIO),
+        "juego_terminado": False,
+        "tablero": tablero
+    }
+
+    return res
 
 
 def obtener_estado_tablero_visible(estado: EstadoJuego) -> list[list[str]]:

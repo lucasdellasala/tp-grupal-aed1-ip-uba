@@ -15,13 +15,13 @@ Aprender las bases de la programación imperativa.
 ### Configuración inicial
 1. Instalar las dependencias necesarias:
 ```bash
-py -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### Ejecutar los tests
 Para ejecutar los tests unitarios:
 ```bash
-py -m unittest tests_materia.py -v
+python -m unittest tests_materia.py -v
 ```
 
 ### Ver cobertura de código
@@ -29,17 +29,17 @@ Para ver qué tanto del código está cubierto por los tests:
 
 1. Ejecutar los tests con coverage:
 ```bash
-py -m coverage run -m unittest tests_materia.py
+python -m coverage run -m unittest tests_materia.py
 ```
 
 2. Ver reporte en consola:
 ```bash
-py -m coverage report -m
+python -m coverage report -m
 ```
 
 3. Generar reporte HTML detallado:
 ```bash
-py -m coverage html
+python -m coverage html
 ```
 El reporte se genera en `htmlcov/index.html` y se puede abrir en cualquier navegador.
 
