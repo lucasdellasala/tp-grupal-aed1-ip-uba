@@ -112,6 +112,20 @@ class crear_juegoTest(unittest.TestCase):
         # Testeamos que haya una mina en el tablero
         self.assertEqual(cant_minas_en_tablero(estado['tablero']), minas)
 
+class obtener_estado_tablero_visibleTest(unittest.TestCase):
+    def test_ejemplo(self):
+        mock_tablero_visible: list[list[str]] = [[" ", " "],[" ", " "]]
+        estado: EstadoJuego = {
+            "filas": 2,
+            "columnas": 2,
+            "minas": 1,
+            "tablero_visible": mock_tablero_visible,
+            "juego_terminado": False,
+            "tablero": [[1, 1],[-1, 1]]
+        }
+        tablero_visible = obtener_estado_tablero_visible(estado)
+        self.assertEqual(tablero_visible, mock_tablero_visible)
+
 
 """ class marcar_celdaTest(unittest.TestCase):
     def test_ejemplo(self):
