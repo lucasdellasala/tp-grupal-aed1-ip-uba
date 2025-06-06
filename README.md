@@ -27,19 +27,9 @@ python -m unittest tests_materia.py -v
 ### Ver cobertura de código
 Para ver qué tanto del código está cubierto por los tests:
 
-1. Ejecutar los tests con coverage:
+Ejecutar los tests con coverage:
 ```bash
-python -m coverage run -m unittest tests_materia.py
-```
-
-2. Ver reporte en consola:
-```bash
-python -m coverage report -m
-```
-
-3. Generar reporte HTML detallado:
-```bash
-python -m coverage html
+python -m coverage run --source=buscaminas -m unittest tests_materia.py && python -m coverage report -m && python -m coverage html
 ```
 El reporte se genera en `htmlcov/index.html` y se puede abrir en cualquier navegador.
 
