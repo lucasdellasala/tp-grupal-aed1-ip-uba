@@ -32,7 +32,7 @@ def crear_tablero_visible(filas: int, columnas: int, codigo: int | str) -> list[
 
     return tablero
 
-
+# 💥 EJERCICIO  1
 def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
     contador_minas: int = 0
     posiciones_minas: list[int] = random.sample(
@@ -79,6 +79,7 @@ def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda
     return contador_actualizado
 
 
+# 💥 EJERCICIO  2
 def calcular_numeros(tablero: list[list[int]]) -> None:
     for indice_fila in range(len(tablero)):
         for indice_celda in range(len(tablero[indice_fila])):
@@ -90,6 +91,7 @@ def calcular_numeros(tablero: list[list[int]]) -> None:
             tablero[indice_fila][indice_celda] = contador_minas_limitrofes
 
 
+# 💥 EJERCICIO  3
 def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
     tablero = colocar_minas(filas, columnas, minas)
     calcular_numeros(tablero)
@@ -112,7 +114,7 @@ def copiar_matriz(tablero: list[list[str]]) -> list[list[str]]:
         copia_del_tablero.append(filas.copy())
     return copia_del_tablero
 
-
+# 💥 EJERCICIO  4
 def obtener_estado_tablero_visible(estado: EstadoJuego) -> list[list[str]]:
     return copiar_matriz(estado["tablero_visible"])
 
@@ -123,7 +125,7 @@ def posicion_valida(estado: EstadoJuego, fila: int, columna: int) -> bool:
         and 0 <= columna < estado["columnas"]
     )
 
-
+# 💥 EJERCICIO  5
 def marcar_celda(estado: EstadoJuego, fila: int, columna: int) -> None:
     if estado["juego_terminado"]:
         return
@@ -143,7 +145,7 @@ def mostrar_bombas(estado: EstadoJuego) -> None:
             if estado["tablero"][fila][columna] == BOMBA_CODIGO:
                 estado["tablero_visible"][fila][columna] = BOMBA
 
-
+# 💥 EJERCICIO  6
 def descubrir_celda(estado: EstadoJuego, fila: int, columna: int) -> None:
     if estado["juego_terminado"]:
         return
@@ -186,11 +188,11 @@ def todas_celdas_seguras_descubiertas(tablero: list[list[int]], tablero_visible:
                     return False
     return True
 
-
+# 💥 EJERCICIO  7
 def verificar_victoria(estado: EstadoJuego) -> bool:
     return todas_celdas_seguras_descubiertas(estado["tablero"], estado["tablero_visible"])
 
-
+# 💥 EJERCICIO  8
 def reiniciar_juego(estado: EstadoJuego) -> None:
     filas = estado["filas"]
     columnas = estado["columnas"]
@@ -275,7 +277,7 @@ def contar_minas(tablero: list[list[int]]) -> int:
     """Cuenta la cantidad de minas en el tablero."""
     return sum(1 for fila in tablero for celda in fila if celda == -1)
 
-
+# 💥 EJERCICIO  9
 def guardar_estado(estado: EstadoJuego, ruta_directorio: str) -> bool:
     """Guarda el estado del juego en dos archivos: tablero.txt y tablero_visible.txt.
     Retorna True si se guardó correctamente, False en caso contrario."""
@@ -330,7 +332,7 @@ def es_numero(s: str) -> bool:
         i += 1
     return True
 
-
+# 💥 EJERCICIO  10
 def cargar_estado(estado: EstadoJuego, ruta: str) -> bool:
     """Carga el estado del juego desde los archivos tablero.txt y tablero_visible.txt.
     Retorna True si se cargó correctamente, False en caso contrario."""
