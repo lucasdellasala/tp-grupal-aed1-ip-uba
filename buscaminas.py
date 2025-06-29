@@ -36,15 +36,15 @@ def crear_tablero_visible(filas: int, columnas: int, codigo: int | str) -> list[
 def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
     contador_minas: int = 0
     posiciones_minas: list[int] = random.sample(
-        range(1, filas * columnas), minas)
+        range(0, filas * columnas), minas)
     tablero: list[list[int]] = crear_tablero_visible(
         filas, columnas, VACIO_CODIGO)
 
     while contador_minas < minas:
-        indice_mina = posiciones_minas[contador_minas]
-        fila = indice_mina // columnas
-        columna = indice_mina % columnas
-        tablero[fila][columna] = BOMBA_CODIGO
+        indice_mina : int = posiciones_minas[contador_minas]
+        fila : int = indice_mina // columnas
+        columna : int = indice_mina % columnas
+        tablero[fila][columna] : int = BOMBA_CODIGO
         contador_minas += 1
 
     return tablero
@@ -65,8 +65,8 @@ def es_bomba(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> b
 
 def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> int:
     contador_actualizado: int = 0
-    desplazamientos_fila = [-1, 0, 1]
-    desplazamientos_columna = [-1, 0, 1]
+    desplazamientos_fila : list[int] = [-1, 0, 1]
+    desplazamientos_columna : list[int] = [-1, 0, 1]
 
     for df in desplazamientos_fila:
         for dc in desplazamientos_columna:
@@ -93,7 +93,7 @@ def calcular_numeros(tablero: list[list[int]]) -> None:
 
 # 💥 EJERCICIO  3
 def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
-    tablero = colocar_minas(filas, columnas, minas)
+    tablero : list[list[int]] = colocar_minas(filas, columnas, minas)
     calcular_numeros(tablero)
 
     res: EstadoJuego = {
@@ -194,19 +194,19 @@ def verificar_victoria(estado: EstadoJuego) -> bool:
 
 # 💥 EJERCICIO  8
 def reiniciar_juego(estado: EstadoJuego) -> None:
-    filas = estado["filas"]
-    columnas = estado["columnas"]
-    minas = estado["minas"]
-    nuevo_estado = crear_juego(filas, columnas, minas)
+    filas : int = estado["filas"]
+    columnas : int = estado["columnas"]
+    minas : int = estado["minas"]
+    nuevo_estado : : EstadoJuego = crear_juego(filas, columnas, minas)
     estado.update(nuevo_estado)
 
 
 def procesar_linea_tablero(linea: str) -> tuple[bool, list[int]]:
     """Procesa una línea del archivo tablero.txt y retorna una tupla (éxito, lista de enteros).
     Si la línea es inválida, retorna (False, [])."""
-    fila = []
-    num = ""
-    i = 0
+    fila : list[int] = []
+    num : str = ""
+    i : int = 0
     while i < len(linea):
         if linea[i] == ',':
             if not es_numero(num):
@@ -289,7 +289,7 @@ def guardar_estado(estado: EstadoJuego, ruta_directorio: str) -> bool:
 
     # Guardar tablero
     f_tablero = open(os.path.join(ruta_directorio, TABLERO_FILE), "w")
-    lineas_tablero = []
+    lineas_tablero : list[str] = []
     for fila in estado["tablero"]:
         linea = ",".join(str(valor) for valor in fila)
         lineas_tablero.append(linea + "\n")
@@ -299,7 +299,7 @@ def guardar_estado(estado: EstadoJuego, ruta_directorio: str) -> bool:
     # Guardar tablero visible
     tablero_visible_para_guardar = copiar_matriz(estado["tablero_visible"])
     f_visible = open(os.path.join(ruta_directorio, TABLERO_VISIBLE_FILE), "w")
-    lineas_visible = []
+    lineas_visible : list[str] = []
     for fila in tablero_visible_para_guardar:
         valores = []
         for valor in fila:
@@ -343,17 +343,17 @@ def cargar_estado(estado: EstadoJuego, ruta: str) -> bool:
         return False
 
     f_tablero = open(ruta_tablero, "r")
-    tablero = f_tablero.readlines()
+    tablero : list[str] = f_tablero.readlines()
     f_tablero.close()
 
     f_visible = open(ruta_visible, "r")
-    tablero_visible = f_visible.readlines()
+    tablero_visible : list[str] = f_visible.readlines()
     f_visible.close()
 
     if len(tablero) != len(tablero_visible):
         return False
 
-    tablero_procesado = []
+    tablero_procesado : list[list[int]] = []
     for linea in tablero:
         exito, fila = procesar_linea_tablero(linea)
         if not exito:
@@ -368,7 +368,7 @@ def cargar_estado(estado: EstadoJuego, ruta: str) -> bool:
     if not validar_dimensiones(tablero_procesado, len(tablero_procesado), columnas):
         return False
 
-    tablero_visible_procesado = []
+    tablero_visible_procesado : list[list[str]] = []
     for linea in tablero_visible:
         exito, fila = procesar_linea_tablero_visible(linea)
         if not exito:
