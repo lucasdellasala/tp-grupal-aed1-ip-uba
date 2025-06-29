@@ -51,6 +51,18 @@ def colocar_minas(filas: int, columnas: int, minas: int) -> list[list[int]]:
 
 
 def es_bomba(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> bool:
+    """
+    Verifica si una coordenada específica está dentro de los límites del tablero
+    y si contiene una bomba.
+
+    Args:
+        tablero (list[list[int]]): El tablero de juego con los códigos internos.
+        indice_fila (int): El índice de la fila a comprobar.
+        indice_celda (int): El índice de la celda (columna) a comprobar.
+
+    Returns:
+        bool: True si la coordenada es válida y contiene una bomba, False si no es valida la coordenada o si no contiene una bomba en la coordenada.
+    """
     fila_dentro_de_limites: bool = 0 <= indice_fila < len(tablero)
     if not fila_dentro_de_limites:
         return False
@@ -64,6 +76,17 @@ def es_bomba(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> b
 
 
 def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda: int) -> int:
+    """
+    Calcula el número de bombas cercanas a una celda específica.
+
+    Args:
+        tablero (list[list[int]]): El tablero de juego con las minas ya colocadas.
+        indice_fila (int): El índice de la fila de la celda central.
+        indice_celda (int): El índice de la celda (columna) de la celda central.
+
+    Returns:
+        int: El número total de bombas en las 8 casillas cercanas.
+    """
     contador_actualizado: int = 0
     desplazamientos_fila = [-1, 0, 1]
     desplazamientos_columna = [-1, 0, 1]
@@ -81,6 +104,16 @@ def actualizar_contador(tablero: list[list[int]], indice_fila: int, indice_celda
 
 # 💥 EJERCICIO  2
 def calcular_numeros(tablero: list[list[int]]) -> None:
+    """
+    Recorre el tablero que ya tiene las minas colocadas y actualiza cada celda
+    vacía con el número de minas cercanas.
+
+    Args:
+        tablero (list[list[int]]): El tablero a modificar, con bombas y ceros.
+
+    Returns:
+        None: La función no devuelve nada, modifica el tablero original.
+    """
     for indice_fila in range(len(tablero)):
         for indice_celda in range(len(tablero[indice_fila])):
             if tablero[indice_fila][indice_celda] == BOMBA_CODIGO:
@@ -93,6 +126,19 @@ def calcular_numeros(tablero: list[list[int]]) -> None:
 
 # 💥 EJERCICIO  3
 def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
+    """
+    Crea un estado de juego completo para una nueva partida.
+    se encarga de la colocación de minas y el cálculo de números.
+
+    Args:
+        filas (int): Número de filas para el nuevo juego.
+        columnas (int): Número de columnas para el nuevo juego.
+        minas (int): Cantidad de minas para el nuevo juego.
+
+    Returns:
+        EstadoJuego: Un diccionario que contiene toda la información del estado
+                     del juego inicial.
+    """
     tablero = colocar_minas(filas, columnas, minas)
     calcular_numeros(tablero)
 
@@ -109,6 +155,16 @@ def crear_juego(filas: int, columnas: int, minas: int) -> EstadoJuego:
 
 
 def copiar_matriz(tablero: list[list[str]]) -> list[list[str]]:
+    """
+    Crea una copia de una matriz.
+    La copia es independiente de la original.
+
+    Args:
+        tablero (list[list[str]]): La matriz a copiar.
+
+    Returns:
+        list[list[str]]: Una nueva matriz que es una copia exacta de la original.
+    """
     copia_del_tablero: list[list[str]] = []
     for filas in tablero:
         copia_del_tablero.append(filas.copy())
@@ -116,10 +172,31 @@ def copiar_matriz(tablero: list[list[str]]) -> list[list[str]]:
 
 # 💥 EJERCICIO  4
 def obtener_estado_tablero_visible(estado: EstadoJuego) -> list[list[str]]:
+    """
+    Obtiene una copia independiente del tablero visible.
+
+    Args:
+        estado (EstadoJuego): El diccionario del estado actual del juego.
+
+    Returns:
+        list[list[str]]: Una copia independiente del tablero visible.
+    """
     return copiar_matriz(estado["tablero_visible"])
 
 
 def posicion_valida(estado: EstadoJuego, fila: int, columna: int) -> bool:
+    """
+    Verifica si una coordenada (fila, columna) está dentro de los límites
+    del tablero definido en el estado del juego.
+
+    Args:
+        estado (EstadoJuego): El estado del juego que contiene las dimensiones.
+        fila (int): El índice de la fila a validar.
+        columna (int): El índice de la columna a validar.
+
+    Returns:
+        bool: True si la posición es válida, False en caso contrario.
+    """
     return (
         0 <= fila < estado["filas"]
         and 0 <= columna < estado["columnas"]
