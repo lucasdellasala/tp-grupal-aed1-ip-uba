@@ -131,6 +131,93 @@ class obtener_estado_tablero_visible_test(unittest.TestCase):
         tablero_visible = obtener_estado_tablero_visible(estado)
         self.assertEqual(tablero_visible, mock_tablero_visible)
 
+    def test_copia_independiente_modificar_copia(self):
+        """
+        Test que verifica que al modificar la copia devuelta no se afecte el estado original
+        """
+        estado: EstadoJuego = {
+            "filas": 2,
+            "columnas": 2,
+            "minas": 1,
+            "tablero_visible": [[" ", " "], [" ", " "]],
+            "juego_terminado": False,
+            "tablero": [[1, 1], [-1, 1]]
+        }
+
+        copia_tablero_visible = obtener_estado_tablero_visible(estado)
+
+        copia_tablero_visible[0][0] = "X"
+
+        self.assertEqual(estado["tablero_visible"], [[" ", " "], [" ", " "]])
+        self.assertNotEqual(copia_tablero_visible, estado["tablero_visible"])
+
+    def test_copia_independiente_modificar_original(self):
+        """
+        Test que verifica que al modificar el estado original no se afecte la copia devuelta
+        """
+        estado: EstadoJuego = {
+            "filas": 2,
+            "columnas": 2,
+            "minas": 1,
+            "tablero_visible": [[" ", " "], [" ", " "]],
+            "juego_terminado": False,
+            "tablero": [[1, 1], [-1, 1]]
+        }
+
+        copia_tablero_visible = obtener_estado_tablero_visible(estado)
+
+        estado["tablero_visible"][0][0] = "Y"
+
+        self.assertEqual(copia_tablero_visible, [[" ", " "], [" ", " "]])
+        self.assertNotEqual(copia_tablero_visible, estado["tablero_visible"])
+
+    def test_copia_independiente_con_banderas(self):
+        """
+        Test que verifica la independencia de la copia con un tablero que contiene banderas
+        """
+        estado: EstadoJuego = {
+            "filas": 2,
+            "columnas": 2,
+            "minas": 1,
+            "tablero_visible": [[BANDERA, " "], [" ", "1"]],
+            "juego_terminado": False,
+            "tablero": [[1, 1], [-1, 1]]
+        }
+
+        copia_tablero_visible = obtener_estado_tablero_visible(estado)
+
+        self.assertEqual(copia_tablero_visible, estado["tablero_visible"])
+
+        copia_tablero_visible[1][1] = "2"
+
+        self.assertEqual(estado["tablero_visible"], [
+                         [BANDERA, " "], [" ", "1"]])
+        self.assertNotEqual(copia_tablero_visible, estado["tablero_visible"])
+
+    def test_copia_independiente_tablero_grande(self):
+        """
+        Test que verifica la independencia de la copia con un tablero más grande
+        """
+        estado: EstadoJuego = {
+            "filas": 3,
+            "columnas": 3,
+            "minas": 2,
+            "tablero_visible": [[" ", BANDERA, " "], ["1", " ", "2"], [" ", " ", " "]],
+            "juego_terminado": False,
+            "tablero": [[1, -1, 1], [1, 2, -1], [0, 1, 1]]
+        }
+
+        copia_tablero_visible = obtener_estado_tablero_visible(estado)
+
+        self.assertEqual(copia_tablero_visible, estado["tablero_visible"])
+
+        copia_tablero_visible[0][0] = "X"
+        copia_tablero_visible[2][2] = "Y"
+
+        self.assertEqual(estado["tablero_visible"], [
+                         [" ", BANDERA, " "], ["1", " ", "2"], [" ", " ", " "]])
+        self.assertNotEqual(copia_tablero_visible, estado["tablero_visible"])
+
 
 class marcar_celda_test(unittest.TestCase):
     def test_ejemplo(self):
@@ -644,7 +731,13 @@ class guardar_estado_test(unittest.TestCase):
             'juego_terminado': True
         }
 
-        self.assertFalse(guardar_estado(estado, self.test_dir))
+        guardar_estado(estado, self.test_dir)
+
+        # Verificamos que no se crearon archivos cuando el juego está terminado
+        self.assertFalse(os.path.exists(
+            os.path.join(self.test_dir, TABLERO_FILE)))
+        self.assertFalse(os.path.exists(
+            os.path.join(self.test_dir, TABLERO_VISIBLE_FILE)))
 
     def test_ruta_invalida(self):
         estado: EstadoJuego = {
@@ -662,7 +755,13 @@ class guardar_estado_test(unittest.TestCase):
             'juego_terminado': False
         }
 
-        self.assertFalse(guardar_estado(estado, "ruta/que/no/existe"))
+        guardar_estado(estado, "ruta/que/no/existe")
+
+        # Verificamos que no se crearon archivos cuando la ruta no existe
+        self.assertFalse(os.path.exists(
+            os.path.join("ruta/que/no/existe", TABLERO_FILE)))
+        self.assertFalse(os.path.exists(os.path.join(
+            "ruta/que/no/existe", TABLERO_VISIBLE_FILE)))
 
     def test_formato_archivos(self):
         estado: EstadoJuego = {
